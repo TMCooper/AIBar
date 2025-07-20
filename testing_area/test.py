@@ -95,10 +95,10 @@ class CommandBar(QWidget):
         
         input_line_layout = QHBoxLayout()
         
-        # --- MODIFIÉ --- Création du bouton avec l'icône de Holo
+        # Création du bouton avec l'icône de Holo
         self.add_file_btn = QPushButton(); self.add_file_btn.setObjectName("add_file_btn"); self.add_file_btn.setCursor(Qt.CursorShape.PointingHandCursor); self.add_file_btn.clicked.connect(self.open_file_dialog)
         
-        # --- MODIFIÉ --- Le chemin pointe maintenant vers le sous-dossier ressource/image/
+        # Le chemin pointe maintenant vers le sous-dossier ressource/image/
         icon = QIcon('ressources/images/holo_icon.png')
         
         self.add_file_btn.setIcon(icon); self.add_file_btn.setIconSize(QSize(26, 26)); self.add_file_btn.setFixedSize(34, 34)
@@ -273,7 +273,6 @@ class CommandBar(QWidget):
         self.setGeometry(int((screen_geometry.width() - 700) / 2), int((screen_geometry.height() - 80) / 4), 700, 80); self.setMaximumHeight(800)
         self.show(); self.activateWindow(); self.raise_(); QTimer.singleShot(50, self.input_field.setFocus); self.run_show_animation()
 
-# --- Section principale (inchangée) ---
 class HotkeyEmitter(QObject):
     show_command_bar_signal = Signal()
 command_bar_instance = None; chat_session = None
