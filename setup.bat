@@ -6,7 +6,7 @@ REM --- VERIFICATIONS ---
 REM Verifie si le dossier de l'environnement virtuel existe
 IF NOT EXIST ".\AIBar\Scripts\activate.bat" (
     echo [ERREUR] Environnement virtuel 'AIBar' introuvable.
-    python -m venv Youtube_Downloader
+    python -m venv AIBar
 )
 
 REM Verifie si le fichier requirements.txt existe
