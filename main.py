@@ -1,49 +1,55 @@
+# main.py
+
 import sys
 import os
-import keyboard
-from PySide6.QtWidgets import QApplication
-from PySide6.QtCore import QObject, Signal
 
-# On importe la fenêtre principale depuis notre dossier src
+project_root = os.path.dirname(os.path.abspath(__file__))
+
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
+# print(f"DEBUG: Racine du projet ajoutée au chemin de recherche -> {project_root}")
+
+import keyboard
+from dotenv import load_dotenv
+import google.generativeai as genai
+
+from PySide6.QtCore import QObject, Signal
+from PySide6.QtWidgets import QApplication
+
 from src.command_bar import CommandBar
 
-# --- GESTIONNAIRE DE RACCOURCI CLAVIER (INCHANGÉ) ---
+
 class HotkeyEmitter(QObject):
-    """
-    Objet simple qui émet un signal Qt depuis un thread non-Qt (celui du hook clavier).
-    """
     show_command_bar_signal = Signal()
 
-# --- GESTION DE L'INSTANCE DE LA FENÊTRE ---
-# Garde une référence à notre fenêtre pour ne pas en créer plusieurs.
 command_bar_instance = None
+chat_session = None
 
 def show_command_bar():
-    """
-    Crée la fenêtre si elle n'existe pas, puis l'affiche.
-    """
-    global command_bar_instance
+    global command_bar_instance, chat_session
     if not command_bar_instance:
-        # Notez qu'on ne passe plus de "chat_session"
-        command_bar_instance = CommandBar()
-    
+        model = genai.GenerativeModel('gemini-1.5-flash-latest')
+        chat_session = model.start_chat(history=[])
+        command_bar_instance = CommandBar(chat_session)
     command_bar_instance.show_and_focus()
 
 def main():
-    """
-    Point d'entrée de l'application.
-    """
+    load_dotenv()
+    api_key = os.environ.get("GEMINI_API_KEY")
+    if not api_key:
+        print("Erreur: Clé API 'GEMINI_API_KEY' manquante dans le fichier .env")
+        return
+    genai.configure(api_key=api_key)
+    
     app = QApplication(sys.argv)
-
-    # Crée un émetteur pour communiquer entre le hook clavier et l'application Qt
+    
     emitter = HotkeyEmitter()
     emitter.show_command_bar_signal.connect(show_command_bar)
-
-    print("Programme en arrière-plan. Appuyez sur 'ctrl+shift+a' pour afficher la barre de commande.")
     
-    # Ajoute le raccourci clavier global qui déclenche le signal
+    print("Programme en arrière-plan. Raccourci : ctrl+shift+a")
     keyboard.add_hotkey('ctrl+shift+a', lambda: emitter.show_command_bar_signal.emit())
-
+    
     sys.exit(app.exec())
 
 if __name__ == "__main__":

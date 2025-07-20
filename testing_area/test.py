@@ -178,14 +178,47 @@ class CommandBar(QWidget):
         QTimer.singleShot(100, lambda: self.scroll_area.verticalScrollBar().setValue(self.scroll_area.verticalScrollBar().maximum())); return message_browser
 
     def add_code_block(self, raw_code, lang):
-        container = QWidget(); container.setObjectName("code_container"); container_layout = QVBoxLayout(container); container_layout.setSpacing(0)
-        top_bar_layout = QHBoxLayout(); lang_label = QLabel(lang if lang else "code"); lang_label.setObjectName("language_label")
-        copy_btn = QPushButton("Copier"); copy_btn.setObjectName("copy_btn"); copy_btn.setCursor(Qt.CursorShape.PointingHandCursor); copy_btn.clicked.connect(lambda: self.copy_to_clipboard(raw_code, copy_btn))
-        top_bar_layout.addWidget(lang_label); top_bar_layout.addStretch(); top_bar_layout.addWidget(copy_btn)
-        formatter = HtmlFormatter(style='monokai', nobackground=True, noclasses=True)
-        html_code = markdown.markdown(f"```{lang}\n{raw_code}\n```", extensions=['fenced_code', 'codehilite'], extension_configs={'codehilite': {'pygments_formatter': formatter}})
-        code_browser = QTextBrowser(); code_browser.setHtml(html_code)
-        container_layout.addLayout(top_bar_layout); container_layout.addWidget(code_browser)
+        container = QWidget()
+        container.setObjectName("code_container")
+        container.setMaximumWidth(self.width() * 0.85)
+        
+        container_layout = QVBoxLayout(container)
+        container_layout.setSpacing(0)
+
+        top_bar_layout = QHBoxLayout()
+        lang_label = QLabel(lang if lang else "code")
+        lang_label.setObjectName("language_label")
+        copy_btn = QPushButton("Copier")
+        copy_btn.setObjectName("copy_btn")
+        copy_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        copy_btn.clicked.connect(lambda: self.copy_to_clipboard(raw_code, copy_btn))
+        
+        top_bar_layout.addWidget(lang_label)
+        top_bar_layout.addStretch()
+        top_bar_layout.addWidget(copy_btn)
+
+        formatter_callable = lambda **kwargs: HtmlFormatter(style='monokai', nobackground=True, noclasses=True)
+
+        html_code = markdown.markdown(
+            f"```{lang}\n{raw_code}\n```",
+            extensions=['fenced_code', 'codehilite'],
+            extension_configs={
+                'codehilite': {
+                    'pygments_formatter': formatter_callable
+                }
+            }
+        )
+        code_browser = QTextBrowser()
+        code_browser.setHtml(html_code)
+        
+        code_browser.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        code_browser.document().documentLayout().documentSizeChanged.connect(
+            lambda size: code_browser.setFixedHeight(int(size.height()))
+        )
+
+        container_layout.addLayout(top_bar_layout)
+        container_layout.addWidget(code_browser)
+        
         self.scroll_layout.addWidget(container, alignment=Qt.AlignmentFlag.AlignLeft)
         QTimer.singleShot(50, lambda: self.scroll_area.verticalScrollBar().setValue(self.scroll_area.verticalScrollBar().maximum()))
 
