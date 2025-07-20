@@ -17,23 +17,41 @@ from PySide6.QtWidgets import (QApplication, QWidget, QVBoxLayout, QHBoxLayout,
 from src.styles import STYLESHEET
 from src.file_preview_widget import FilePreviewWidget
 
-class TextStreamer(QObject):
+class BlockStreamer(QObject):
+    """
+    Affiche le texte bloc par bloc (paragraphe par paragraphe)
+    avec un effet de fondu enchaîné.
+    """
     stream_finished = Signal()
-    def __init__(self, browser: QTextBrowser, text: str, parent=None):
+
+    def __init__(self, browser: QTextBrowser, markdown_text: str, parent=None):
         super().__init__(parent)
         self.browser = browser
-        self.html_parts = text.split(' ')
-        self.current_html = ""
-    def start(self):
+        # On divise le texte en blocs en se basant sur les doubles sauts de ligne
+        self.blocks_to_display = markdown_text.split('\n\n')
+        self.displayed_blocks = []
         self.timer = QTimer(self)
-        self.timer.setInterval(25)
-        self.timer.timeout.connect(self._add_part)
+
+    def start(self):
+        # Un intervalle un peu plus long pour laisser le temps de lire chaque bloc
+        self.timer.setInterval(350) 
+        self.timer.timeout.connect(self._add_block)
         self.timer.start()
-    def _add_part(self):
-        if self.html_parts:
-            self.current_html += self.html_parts.pop(0) + " "
-            self.browser.setHtml(self.current_html)
+
+    def _add_block(self):
+        if self.blocks_to_display:
+            # On ajoute le prochain bloc à la liste de ceux déjà affichés
+            next_block = self.blocks_to_display.pop(0)
+            self.displayed_blocks.append(next_block)
+            
+            # On reconstruit le texte Markdown et on le convertit en HTML
+            current_markdown = "\n\n".join(self.displayed_blocks)
+            html_to_display = markdown.markdown(current_markdown)
+            
+            # On met à jour le contenu du navigateur
+            self.browser.setHtml(html_to_display)
         else:
+            # Quand il n'y a plus de blocs, on s'arrête
             self.timer.stop()
             self.stream_finished.emit()
 
@@ -312,7 +330,7 @@ class CommandBar(QWidget):
         if text_parts:
             full_text = "\n\n".join(text_parts)
             ai_browser = self.add_message_to_view("", "ai")
-            self.streamer = TextStreamer(ai_browser, markdown.markdown(full_text))
+            self.streamer = BlockStreamer(ai_browser, full_text) 
             self.streamer.stream_finished.connect(lambda: setattr(self, 'is_processing', False))
             self.streamer.start()
         else:

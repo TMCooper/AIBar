@@ -14,8 +14,6 @@ from PySide6.QtGui import QPixmap, QKeySequence, QImage, QIcon
 from PySide6.QtWidgets import (QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLineEdit, 
                                QLabel, QScrollArea, QSpacerItem, QSizePolicy, QTextBrowser, QPushButton, QFileDialog)
 
-# --- STYLESHEET MODIFIÉ ---
-# Le style du bouton d'ajout de fichier est maintenant adapté pour une icône ronde.
 STYLESHEET = """
 QWidget#main_widget { background-color: #2b2d31; border: 1px solid #1e1f22; border-radius: 18px; }
 QScrollArea { border: none; border-radius: 16px; background-color: #313338; }
