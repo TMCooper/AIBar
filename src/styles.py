@@ -1,4 +1,6 @@
 # src/style.py
+# Owner TMCooper
+
 
 STYLESHEET = """
 QWidget#main_widget { background-color: #2b2d31; border: 1px solid #1e1f22; border-radius: 18px; }

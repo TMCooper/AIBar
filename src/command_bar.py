@@ -1,8 +1,10 @@
 # src/command_bar.py
+# Owner TMCooper
 
 import os
 import io
 import re
+import sys
 import markdown
 from PIL import Image
 from pygments.formatters import HtmlFormatter
@@ -16,6 +18,17 @@ from PySide6.QtWidgets import (QApplication, QWidget, QVBoxLayout, QHBoxLayout,
 
 from src.styles import STYLESHEET
 from src.file_preview_widget import FilePreviewWidget
+
+def resource_path(relative_path):
+    """ Obtient le chemin absolu vers une ressource, fonctionne pour le dev et pour PyInstaller. """
+    try:
+        # PyInstaller crée un dossier temporaire et y stocke le chemin dans _MEIPASS.
+        base_path = sys._MEIPASS
+    except Exception:
+        # _MEIPASS n'est pas défini, nous sommes en mode développement.
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 class BlockStreamer(QObject):
     """
@@ -117,7 +130,8 @@ class CommandBar(QWidget):
         self.add_file_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         self.add_file_btn.clicked.connect(self.open_file_dialog)
         
-        icon = QIcon('ressources/images/holo_icon.png')
+        icon_path = resource_path('ressources/images/holo_icon.png')
+        icon = QIcon(icon_path)
         self.add_file_btn.setIcon(icon)
         self.add_file_btn.setIconSize(QSize(26, 26))
         self.add_file_btn.setFixedSize(34, 34)
