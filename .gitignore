@@ -2,3 +2,5 @@ AIBar
 .env
 base_main.py
 __pycache__
+build
+dist
