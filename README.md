@@ -11,7 +11,7 @@ setup.bat
 python main.py
 ~~~
 
-=== Instructions d'Installation de AIBar ===
+# Instructions d'Installation de AIBar
 
 1. Assurez-vous que les fichiers "AIBar.exe" et ".env" se trouvent dans le même dossier.
 
@@ -24,6 +24,3 @@ python main.py
 5. Double-cliquez sur "AIBar.exe" pour lancer le programme en arrière-plan.
 
 Le raccourci pour afficher la barre de commande est Ctrl+Shift+A.
-
----
-Note : La première fois que vous lancez le programme, Windows Defender peut afficher un avertissement. Cliquez sur "Informations complémentaires" puis "Exécuter quand même". C'est un comportement normal pour les applications non signées.
