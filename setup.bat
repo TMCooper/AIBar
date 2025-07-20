@@ -5,7 +5,7 @@ title Lanceur d'application Python
 REM --- VERIFICATIONS ---
 REM Verifie si le dossier de l'environnement virtuel existe
 IF NOT EXIST ".\AIBar\Scripts\activate.bat" (
-    echo [ERREUR] Environnement virtuel 'Youtube_Downloader' introuvable.
+    echo [ERREUR] Environnement virtuel 'AIBar' introuvable.
     python -m venv Youtube_Downloader
 )
 
@@ -17,7 +17,7 @@ IF NOT EXIST "requirements.txt" (
 
 REM Verifie si le fichier main.py existe
 IF NOT EXIST "main.py" (
-    echo [ERREUR] Le script principal 'youtube_downloader.py' est introuvable.
+    echo [ERREUR] Le script principal 'main.py' est introuvable.
     goto End
 )
 
