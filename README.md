@@ -1,5 +1,4 @@
 # AIBar
-AIBar
 
 # Quick setup
 - First : transform your env-template into .env and enter your gemini api key between the quotes
