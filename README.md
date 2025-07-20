@@ -15,7 +15,7 @@ python main.py
 
 1. Assurez-vous que les fichiers "AIBar.exe" et ".env" se trouvent dans le même dossier.
 
-2. Crée le fichier ".env" avec un éditeur de texte (comme le Bloc-notes).
+2. Crée le fichier ".env" avec un éditeur de texte (comme le Bloc-notes) le template [ici](https://github.com/TMCooper/AIBar/blob/main/.env-template) .
 
 3. Remplacez "METTEZ_VOTRE_CLE_API_GEMINI_ICI" par votre propre clé API que vous pouvez obtenir sur [Google AI Studio](https://aistudio.google.com/apikey).
 
