@@ -23,4 +23,6 @@ python main.py
 
 5. Double-cliquez sur "AIBar.exe" pour lancer le programme en arrière-plan.
 
-Le raccourci pour afficher la barre de commande est Ctrl+Shift+A.
+Le raccourci pour afficher la barre est ``Ctrl+Shift+A``.
+
+Pour définitivement éteindre le programme faite ``Ctrl+Shift+A`` puis marquer ``exit``
