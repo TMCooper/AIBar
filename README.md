@@ -11,6 +11,12 @@ setup.bat
 python main.py
 ~~~
 
+# If you want to compile by your self
+do :
+~~~bash
+pyinstaller main.spec
+~~~
+
 # Instructions d'Installation de AIBar
 
 1. Assurez-vous que les fichiers "AIBar.exe" et ".env" se trouvent dans le même dossier.
