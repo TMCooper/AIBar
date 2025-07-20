@@ -26,3 +26,6 @@ python main.py
 Le raccourci pour afficher la barre est ``Ctrl+Shift+A``.
 
 Pour définitivement éteindre le programme faite ``Ctrl+Shift+A`` puis marquer ``exit``
+
+# Coming soon
+Gestion des fichier .sh .bat etc.. [ ]
