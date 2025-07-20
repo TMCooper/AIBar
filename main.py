@@ -1,4 +1,5 @@
 # main.py
+# Owner TMCooper
 
 import sys
 import os
