@@ -65,10 +65,9 @@ class CommandBar(QWidget):
         self.add_file_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         self.add_file_btn.clicked.connect(self.open_file_dialog)
         
-        # Le chemin pointe maintenant vers le dossier src/resources/images/
-        icon_path = os.path.join("src", "resources", "images", "holo_icon.png")
-        if os.path.exists(icon_path):
-            self.add_file_btn.setIcon(QIcon(icon_path))
+        icon = QIcon('ressources/images/holo_icon.png')
+        
+        self.add_file_btn.setIcon(icon); self.add_file_btn.setIconSize(QSize(26, 26)); self.add_file_btn.setFixedSize(34, 34)
         
         self.add_file_btn.setIconSize(QSize(26, 26))
         self.add_file_btn.setFixedSize(34, 34)
@@ -119,10 +118,6 @@ class CommandBar(QWidget):
         self.input_field.clear()
         self.remove_file_preview()
 
-        # ----- DÉBUT DE LA LOGIQUE DE REMPLACEMENT -----
-        # Ici, nous simulons une "réponse" pour montrer que l'UI fonctionne.
-        # Remplacez cette section par votre propre logique.
-        
         reponse_simulee = f"Message reçu : '{demande}'."
         if file_info:
             reponse_simulee += f"<br>Fichier '{file_info['name']}' de type '{file_info['type']}' a bien été pris en compte."
@@ -130,13 +125,8 @@ class CommandBar(QWidget):
         # Affiche la réponse simulée dans une bulle "ai"
         QTimer.singleShot(500, lambda: self.add_message_to_view(reponse_simulee, "ai"))
         
-        # ----- FIN DE LA LOGIQUE DE REMPLACEMENT -----
-
         self.is_processing = False
 
-    # ... (le reste des méthodes de CommandBar reste quasi-identique)
-    # ... (copiez toutes les méthodes de run_show_animation à show_and_focus de votre code original)
-    # ... (ASSUREZ-VOUS de retirer les lignes `self.chat_session...` dans clear_chat_view et show_and_focus)
 
     def run_show_animation(self):
         self.pos_anim = QPropertyAnimation(self, b"pos")
